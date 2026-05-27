@@ -582,5 +582,714 @@ function selectFont(id) {
   document.getElementById('f-out').textContent = nums[id];
 }
 </script>
+
+<!-- ══════════════════════════════════════════
+     WIREFRAME SECTION
+══════════════════════════════════════════ -->
+<style>
+.wf-wrap{
+  padding: 48px 40px 64px;
+  border-top: 1px solid var(--line);
+  transition: border-color 0.35s;
+}
+.wf-intro-label{
+  font-family: 'Barlow', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+  transition: color 0.35s;
+}
+.wf-intro-title{
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 26px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text);
+  margin-bottom: 10px;
+  transition: color 0.35s;
+}
+.wf-intro-body{
+  font-family: 'Barlow', sans-serif;
+  font-size: 14px;
+  color: var(--text-s);
+  line-height: 1.7;
+  margin-bottom: 40px;
+  max-width: 640px;
+  transition: color 0.35s;
+}
+.wf-sections{
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.wf-block{
+  background: var(--surface);
+  border: 1px solid var(--line);
+  display: flex;
+  align-items: stretch;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.35s;
+  position: relative;
+}
+.wf-block:hover{ background: var(--surface2); }
+.wf-block.wf-confirmed{ border-color: var(--accent); }
+
+.wf-num{
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 28px;
+  letter-spacing: 0.06em;
+  color: var(--surface2);
+  padding: 24px 28px;
+  min-width: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid var(--line);
+  transition: color 0.35s, border-color 0.35s;
+  flex-shrink: 0;
+}
+.wf-block.wf-confirmed .wf-num{ color: var(--accent); }
+
+.wf-content{
+  padding: 22px 28px;
+  flex: 1;
+}
+.wf-section-name{
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text);
+  margin-bottom: 6px;
+  transition: color 0.35s;
+}
+.wf-section-desc{
+  font-family: 'Barlow', sans-serif;
+  font-size: 14px;
+  color: var(--text-s);
+  line-height: 1.65;
+  margin-bottom: 10px;
+  transition: color 0.35s;
+}
+.wf-elements{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.wf-el{
+  font-family: 'Barlow', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--text-s);
+  border: 1px solid var(--line);
+  padding: 3px 10px;
+  transition: color 0.35s, border-color 0.35s;
+}
+.wf-block.wf-confirmed .wf-el{
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+.wf-check{
+  display: none;
+  position: absolute;
+  top: 18px; right: 20px;
+  font-family: 'Barlow', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  background: var(--accent);
+  color: var(--cta-text);
+  padding: 4px 10px;
+  transition: background 0.35s, color 0.35s;
+}
+.wf-block.wf-confirmed .wf-check{ display: block; }
+
+.wf-confirm-btn{
+  margin-top: 8px;
+  display: inline-block;
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--text-s);
+  font-family: 'Barlow', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 7px 16px;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.wf-confirm-btn:hover{ border-color: var(--accent); color: var(--accent); }
+.wf-block.wf-confirmed .wf-confirm-btn{
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--cta-text);
+}
+
+.wf-size{
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--surface2);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  transition: color 0.35s;
+}
+
+.wf-footer{
+  margin-top: 40px;
+  padding: 20px 28px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  transition: background 0.35s, border-color 0.35s;
+}
+.wf-footer-note{
+  font-family: 'Barlow', sans-serif;
+  font-size: 13px;
+  color: var(--text-s);
+  line-height: 1.7;
+  transition: color 0.35s;
+}
+.wf-footer-note strong{ color: var(--text); transition: color 0.35s; }
+.wf-footer-count{
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-s);
+  transition: color 0.35s;
+}
+.wf-footer-count span{ color: var(--accent); font-size: 20px; transition: color 0.35s; }
+
+@media(max-width:860px){
+  .wf-wrap{ padding: 32px 20px 48px; }
+  .wf-num{ padding: 18px 18px; min-width: 56px; font-size: 22px; }
+  .wf-content{ padding: 16px 18px; }
+  .wf-size{ display: none; }
+}
+</style>
+
+<style>
+.wf-page-block {
+  margin-bottom: 40px;
+}
+.wf-page-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--accent);
+  padding: 14px 28px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-bottom: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: background 0.35s, border-color 0.35s, color 0.35s;
+}
+.wf-page-num {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--text-s);
+  font-family: 'Barlow', sans-serif;
+  font-weight: 400;
+  transition: color 0.35s;
+}
+</style>
+
+<div class="wf-wrap">
+  <div class="wf-intro-label">Структура сайту</div>
+  <div class="wf-intro-title">Підтвердіть wireframe — 5 сторінок</div>
+  <div class="wf-intro-body">
+    Нижче — повна структура сайту APEX по кожній сторінці. Натисніть «Підтвердити» на секціях які вас влаштовують. Якщо щось змінити — напишіть коментар у відповідь.
+  </div>
+
+
+  <!-- ═══ СТОРІНКА 1: ГОЛОВНА ═══ -->
+  <div class="wf-page-block">
+    <div class="wf-page-title"><span class="wf-page-num">СТОРІНКА</span> 01 — Головна</div>
+    <div class="wf-sections">
+
+      <div class="wf-block" id="wf1_1">
+        <div class="wf-check">✓ Підтверджено</div>
+        <div class="wf-num">01</div>
+        <div class="wf-content">
+          <div class="wf-section-name">Герой — перший екран</div>
+          <div class="wf-section-desc">Повноекранний блок. Велике горизонтальне фото сучасного об'єкта з панорамним склінням. Поверх — слоган, підзаголовок і головна кнопка дії.</div>
+          <div class="wf-elements">
+            <span class="wf-el">[ ФОТО ] горизонтальне, повний екран</span>
+            <span class="wf-el">Логотип у хедері</span>
+            <span class="wf-el">Навігація: Вікна / Скління / Двері / Про нас</span>
+            <span class="wf-el">Телефон у хедері</span>
+            <span class="wf-el">Слоган: «Сучасні рішення для вашого простору»</span>
+            <span class="wf-el">Кнопка «Замовити безкоштовний замір»</span>
+          </div>
+          <button class="wf-confirm-btn" onclick="confirmSection('wf1_1');event.stopPropagation();">Підтвердити секцію</button>
+        </div>
+        <div class="wf-size">100vh</div>
+      </div>
+
+      <div class="wf-block" id="wf1_2">
+        <div class="wf-check">✓ Підтверджено</div>
+        <div class="wf-num">02</div>
+        <div class="wf-content">
+          <div class="wf-section-name">Для кого ми працюємо</div>
+          <div class="wf-section-desc">3 картки по типу клієнта. Кожна веде до відповідного розділу або якірного посилання. Одразу допомагає відвідувачу зрозуміти що він тут знайде.</div>
+          <div class="wf-elements">
+            <span class="wf-el">Картка: Приватні будинки і квартири</span>
+            <span class="wf-el">Картка: Комерційні об'єкти</span>
+            <span class="wf-el">Картка: Архітектори та забудовники</span>
+          </div>
+          <button class="wf-confirm-btn" onclick="confirmSection('wf1_2');event.stopPropagation();">Підтвердити секцію</button>
+        </div>
+        <div class="wf-size">auto</div>
+      </div>
+
+      <div class="wf-block" id="wf1_3">
+        <div class="wf-check">✓ Підтверджено</div>
+        <div class="wf-num">03</div>
+        <div class="wf-content">
+          <div class="wf-section-name">Напрямки — що робимо</div>
+          <div class="wf-section-desc">3 великі блоки з переходом на окремі сторінки. Фото + назва + короткий опис + кнопка «Детальніше».</div>
+          <div class="wf-elements">
+            <span class="wf-el">Блок: Вікна → сторінка Вікна</span>
+            <span class="wf-el">Блок: Скління → сторінка Скління</span>
+            <span class="wf-el">Блок: Двері → сторінка Двері</span>
+          </div>
+          <button class="wf-confirm-btn" onclick="confirmSection('wf1_3');event.stopPropagation();">Підтвердити секцію</button>
+        </div>
+        <div class="wf-size">auto</div>
+      </div>
+
+      <div class="wf-block" id="wf1_4">
+        <div class="wf-check">✓ Підтверджено</div>
+        <div class="wf-num">04</div>
+        <div class="wf-content">
+          <div class="wf-section-name">Портфоліо — кращі об'єкти</div>
+          <div class="wf-section-desc">6 фото найкращих реалізованих об'єктів. Сітка 3×2. Фільтр по категорії. Кнопка «Всі роботи» веде на повну галерею.</div>
+          <div class="wf-elements">
+            <span class="wf-el">[ ФОТО ] × 6 заглушок</span>
+            <span class="wf-el">Фільтр: Всі / Вікна / Скління / Двері</span>
+            <span class="wf-el">Підпис: тип об'єкта + місто</span>
+            <span class="wf-el">Кнопка «Переглянути всі роботи»</span>
+          </div>
+          <button class="wf-confirm-btn" onclick="confirmSection('wf1_4');event.stopPropagation();">Підтвердити секцію</button>
+        </div>
+        <div class="wf-size">auto</div>
+      </div>
+
+      <div class="wf-block" id="wf1_5">
+        <div class="wf-check">✓ Підтверджено</div>
+        <div class="wf-num">05</div>
+        <div class="wf-content">
+          <div class="wf-section-name">Переваги — чому APEX</div>
+          <div class="wf-section-desc">6 блоків: іконка + заголовок + 1–2 речення. Конкретика без зайвого тексту.</div>
+          <div class="wf-elements">
+            <span class="wf-el">Гарантія 5 років</span>
+            <span class="wf-el">Безкоштовний замір</span>
+            <span class="wf-el">Монтаж під ключ</span>
+            <span class="wf-el">Власний склад у Рівному</span>
+            <span class="wf-el">Досвід з 2000 року ⚠️ уточнити</span>
+            <span class="wf-el">Понад ___ об'єктів ⚠️ уточнити</span>
+          </div>
+          <button class="wf-confirm-btn" onclick="confirmSection('wf1_5');event.stopPropagation();">Підтвердити секцію</button>
+        </div>
+        <div class="wf-size">auto</div>
+      </div>
+
+      <div class="wf-block" id="wf1_6">
+        <div class="wf-check">✓ Підтверджено</div>
+        <div class="wf-num">06</div>
+        <div class="wf-content">
+          <div class="wf-section-name">Як працюємо — 4 кроки</div>
+          <div class="wf-section-desc">Горизонтальний таймлайн від заявки до готового об'єкта. Знімає заперечення, пояснює процес новому клієнту.</div>
+          <div class="wf-elements">
+            <span class="wf-el">Крок 1: Заявка або дзвінок</span>
+            <span class="wf-el">Крок 2: Безкоштовний замір</span>
+            <span class="wf-el">Крок 3: Договір і виробництво</span>
+            <span class="wf-el">Крок 4: Монтаж і здача об'єкта</span>
+          </div>
+          <button class="wf-confirm-btn" onclick="confirmSection('wf1_6');event.stopPropagation();">Підтвердити секцію</button>
+        </div>
+        <div class="wf-size">auto</div>
+      </div>
+
+      <div class="wf-block" id="wf1_7">
+        <div class="wf-check">✓ Підтверджено</div>
+        <div class="wf-num">07</div>
+        <div class="wf-content">
+          <div class="wf-section-name">Відгуки клієнтів</div>
+          <div class="wf-section-desc">Три джерела: відео з Instagram (реалізовані проєкти), відгуки з Google Maps, текстові відгуки. Найсильніший блок довіри.</div>
+          <div class="wf-elements">
+            <span class="wf-el">Відео з Instagram — embed</span>
+            <span class="wf-el">Відгуки Google Maps — рейтинг + тексти</span>
+            <span class="wf-el">Текстові відгуки — картки</span>
+            <span class="wf-el">⚠️ Потрібно: відео-відгуки від клієнтів (зняти)</span>
+          </div>
+          <button class="wf-confirm-btn" onclick="confirmSection('wf1_7');event.stopPropagation();">Підтвердити секцію</button>
+        </div>
+        <div class="wf-size">auto</div>
+      </div>
+
+      <div class="wf-block" id="wf1_8">
+        <div class="wf-check">✓ Підтверджено</div>
+        <div class="wf-num">08</div>
+        <div class="wf-content">
+          <div class="wf-section-name">CTA-банер — повторний заклик</div>
+          <div class="wf-section-desc">Темний або акцентний банер на повну ширину. Короткий текст + велика кнопка. Для тих хто доскролив і ще не натиснув.</div>
+          <div class="wf-elements">
+            <span class="wf-el">Текст: «Готові обговорити ваш проєкт?»</span>
+            <span class="wf-el">Кнопка «Замовити безкоштовний замір»</span>
+            <span class="wf-el">Телефон поруч з кнопкою</span>
+          </div>
+          <button class="wf-confirm-btn" onclick="confirmSection('wf1_8');event.stopPropagation();">Підтвердити секцію</button>
+        </div>
+        <div class="wf-size">auto</div>
+      </div>
+
+      <div class="wf-block" id="wf1_9">
+        <div class="wf-check">✓ Підтверджено</div>
+        <div class="wf-num">09</div>
+        <div class="wf-content">
+          <div class="wf-section-name">Контакти + форма заявки</div>
+          <div class="wf-section-desc">Фінальний блок. Форма ліворуч, контактні дані та карта праворуч. Кнопки соцмереж.</div>
+          <div class="wf-elements">
+            <span class="wf-el">Форма: ім'я + телефон + коментар</span>
+            <span class="wf-el">Телефон: 067-57-67-07-8</span>
+            <span class="wf-el">Instagram: apex.rv.ua</span>
+            <span class="wf-el">Telegram-кнопка</span>
+            <span class="wf-el">Адреса: вул. Небесної Сотні, 20, Рівне</span>
+            <span class="wf-el">Карта Google Maps</span>
+          </div>
+          <button class="wf-confirm-btn" onclick="confirmSection('wf1_9');event.stopPropagation();">Підтвердити секцію</button>
+        </div>
+        <div class="wf-size">auto</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══ СТОРІНКА 2: ВІКНА ═══ -->
+  <div class="wf-page-block">
+    <div class="wf-page-title"><span class="wf-page-num">СТОРІНКА</span> 02 — Вікна</div>
+    <div class="wf-sections">
+
+      <div class="wf-block" id="wf2_1">
+        <div class="wf-check">✓ Підтверджено</div>
+        <div class="wf-num">01</div>
+        <div class="wf-content">
+          <div class="wf-section-name">Герой сторінки</div>
+          <div class="wf-section-desc">Горизонтальне фото + заголовок «Вікна» + короткий опис + CTA.</div>
+          <div class="wf-elements">
+            <span class="wf-el">[ ФОТО ] горизонтальне</span>
+            <span class="wf-el">Заголовок + підзаголовок</span>
+            <span class="wf-el">Кнопка «Замовити безкоштовний замір»</span>
+          </div>
+          <button class="wf-confirm-btn" onclick="confirmSection('wf2_1');event.stopPropagation();">Підтвердити секцію</button>
+        </div>
+        <div class="wf-size">60vh</div>
+      </div>
+
+      <div class="wf-block" id="wf2_2">
+        <div class="wf-check">✓ Підтверджено</div>
+        <div class="wf-num">02</div>
+        <div class="wf-content">
+          <div class="wf-section-name">Алюмінієві вікна</div>
+          <div class="wf-section-desc">Фото + опис системи + переваги + CTA. Акцент на сучасній архітектурі і великих прорізах.</div>
+          <div class="wf-elements">
+            <span class="wf-el">[ ФОТО ] приклади алюмінієвих вікон</span>
+            <span class="wf-el">Опис + переваги алюмінію</span>
+            <span class="wf-el">Кнопка «Отримати консультацію»</span>
+          </div>
+          <button class="wf-confirm-btn" onclick="confirmSection('wf2_2');event.stopPropagation();">Підтвердити секцію</button>
+        </div>
+        <div class="wf-size">auto</div>
+      </div>
+
+      <div class="wf-block" id="wf2_3">
+        <div class="wf-check">✓ Підтверджено</div>
+        <div class="wf-num">03</div>
+        <div class="wf-content">
+          <div class="wf-section-name">Металопластикові вікна</div>
+          <div class="wf-section-desc">Фото + опис + переваги. Акцент на ціні/якості і широкому вибору профілів.</div>
+          <div class="wf-elements">
+            <span class="wf-el">[ ФОТО ] приклади металопластику</span>
+            <span class="wf-el">Опис + переваги</span>
+            <span class="wf-el">Кнопка «Отримати консультацію»</span>
+          </div>
+          <button class="wf-confirm-btn" onclick="confirmSection('wf2_3');event.stopPropagation();">Підтвердити секцію</button>
+        </div>
+        <div class="wf-size">auto</div>
+      </div>
+
+      <div class="wf-block" id="wf2_4">
+        <div class="wf-check">✓ Підтверджено</div>
+        <div class="wf-num">04</div>
+        <div class="wf-content">
+          <div class="wf-section-name">Панорамні та розсувні системи</div>
+          <div class="wf-section-desc">Два підтипи в одному блоці. Великі фото, акцент на естетиці і функціональності.</div>
+          <div class="wf-elements">
+            <span class="wf-el">[ ФОТО ] панорамні вікна</span>
+            <span class="wf-el">[ ФОТО ] розсувні системи</span>
+            <span class="wf-el">Опис кожного типу</span>
+            <span class="wf-el">Кнопка «Замовити безкоштовний замір»</span>
+          </div>
+          <button class="wf-confirm-btn" onclick="confirmSection('wf2_4');event.stopPropagation();">Підтвердити секцію</button>
+        </div>
+        <div class="wf-size">auto</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══ СТОРІНКА 3: СКЛІННЯ ═══ -->
+  <div class="wf-page-block">
+    <div class="wf-page-title"><span class="wf-page-num">СТОРІНКА</span> 03 — Скління</div>
+    <div class="wf-sections">
+
+      <div class="wf-block" id="wf3_1">
+        <div class="wf-check">✓ Підтверджено</div>
+        <div class="wf-num">01</div>
+        <div class="wf-content">
+          <div class="wf-section-name">Герой сторінки</div>
+          <div class="wf-section-desc">Горизонтальне фото великого склінного об'єкта — фасад, тераса або комерція. Сильний перший екран.</div>
+          <div class="wf-elements">
+            <span class="wf-el">[ ФОТО ] горизонтальне, великий об'єкт</span>
+            <span class="wf-el">Заголовок + підзаголовок</span>
+            <span class="wf-el">Кнопка «Замовити безкоштовний замір»</span>
+          </div>
+          <button class="wf-confirm-btn" onclick="confirmSection('wf3_1');event.stopPropagation();">Підтвердити секцію</button>
+        </div>
+        <div class="wf-size">60vh</div>
+      </div>
+
+      <div class="wf-block" id="wf3_2">
+        <div class="wf-check">✓ Підтверджено</div>
+        <div class="wf-num">02</div>
+        <div class="wf-content">
+          <div class="wf-section-name">Безкаркасне скління</div>
+          <div class="wf-section-desc">Тераси, альтанки, балкони. Фото + опис + переваги безкаркасних систем.</div>
+          <div class="wf-elements">
+            <span class="wf-el">[ ФОТО ] тераси та альтанки</span>
+            <span class="wf-el">Опис + переваги</span>
+            <span class="wf-el">Кнопка «Отримати консультацію»</span>
+          </div>
+          <button class="wf-confirm-btn" onclick="confirmSection('wf3_2');event.stopPropagation();">Підтвердити секцію</button>
+        </div>
+        <div class="wf-size">auto</div>
+      </div>
+
+      <div class="wf-block" id="wf3_3">
+        <div class="wf-check">✓ Підтверджено</div>
+        <div class="wf-num">03</div>
+        <div class="wf-content">
+          <div class="wf-section-name">Фасадне скління</div>
+          <div class="wf-section-desc">Комерційні та житлові фасади. Акцент на великих площах і преміум-архітектурі.</div>
+          <div class="wf-elements">
+            <span class="wf-el">[ ФОТО ] фасади будівель</span>
+            <span class="wf-el">Опис + переваги</span>
+            <span class="wf-el">Кнопка «Отримати консультацію»</span>
+          </div>
+          <button class="wf-confirm-btn" onclick="confirmSection('wf3_3');event.stopPropagation();">Підтвердити секцію</button>
+        </div>
+        <div class="wf-size">auto</div>
+      </div>
+
+      <div class="wf-block" id="wf3_4">
+        <div class="wf-check">✓ Підтверджено</div>
+        <div class="wf-num">04</div>
+        <div class="wf-content">
+          <div class="wf-section-name">Комплексні рішення під ключ</div>
+          <div class="wf-section-desc">Для великих об'єктів і забудовників. Від проєкту до монтажу. CTA орієнтований на B2B і архітекторів.</div>
+          <div class="wf-elements">
+            <span class="wf-el">[ ФОТО ] великий комерційний об'єкт</span>
+            <span class="wf-el">Опис процесу роботи з великими замовниками</span>
+            <span class="wf-el">Кнопка «Обговорити проєкт»</span>
+          </div>
+          <button class="wf-confirm-btn" onclick="confirmSection('wf3_4');event.stopPropagation();">Підтвердити секцію</button>
+        </div>
+        <div class="wf-size">auto</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══ СТОРІНКА 4: ДВЕРІ ═══ -->
+  <div class="wf-page-block">
+    <div class="wf-page-title"><span class="wf-page-num">СТОРІНКА</span> 04 — Двері</div>
+    <div class="wf-sections">
+
+      <div class="wf-block" id="wf4_1">
+        <div class="wf-check">✓ Підтверджено</div>
+        <div class="wf-num">01</div>
+        <div class="wf-content">
+          <div class="wf-section-name">Герой сторінки</div>
+          <div class="wf-section-desc">Горизонтальне фото вхідних або міжкімнатних дверей + заголовок + CTA.</div>
+          <div class="wf-elements">
+            <span class="wf-el">[ ФОТО ] горизонтальне</span>
+            <span class="wf-el">Заголовок + підзаголовок</span>
+            <span class="wf-el">Кнопка «Замовити безкоштовний замір»</span>
+          </div>
+          <button class="wf-confirm-btn" onclick="confirmSection('wf4_1');event.stopPropagation();">Підтвердити секцію</button>
+        </div>
+        <div class="wf-size">60vh</div>
+      </div>
+
+      <div class="wf-block" id="wf4_2">
+        <div class="wf-check">✓ Підтверджено</div>
+        <div class="wf-num">02</div>
+        <div class="wf-content">
+          <div class="wf-section-name">Вхідні двері</div>
+          <div class="wf-section-desc">Металеві, алюмінієві, металопластикові. Фото + опис + переваги. Акцент на безпеці та естетиці.</div>
+          <div class="wf-elements">
+            <span class="wf-el">[ ФОТО ] приклади вхідних дверей</span>
+            <span class="wf-el">Типи: металеві / алюмінієві / металопластикові</span>
+            <span class="wf-el">Опис + переваги</span>
+            <span class="wf-el">Кнопка «Отримати консультацію»</span>
+          </div>
+          <button class="wf-confirm-btn" onclick="confirmSection('wf4_2');event.stopPropagation();">Підтвердити секцію</button>
+        </div>
+        <div class="wf-size">auto</div>
+      </div>
+
+      <div class="wf-block" id="wf4_3">
+        <div class="wf-check">✓ Підтверджено</div>
+        <div class="wf-num">03</div>
+        <div class="wf-content">
+          <div class="wf-section-name">Міжкімнатні та технічні двері</div>
+          <div class="wf-section-desc">МДФ, алюміній, прихований монтаж. Фото + опис кожного типу.</div>
+          <div class="wf-elements">
+            <span class="wf-el">[ ФОТО ] міжкімнатні двері</span>
+            <span class="wf-el">Типи: МДФ / алюміній / прихований монтаж</span>
+            <span class="wf-el">[ ФОТО ] технічні двері</span>
+            <span class="wf-el">Кнопка «Замовити безкоштовний замір»</span>
+          </div>
+          <button class="wf-confirm-btn" onclick="confirmSection('wf4_3');event.stopPropagation();">Підтвердити секцію</button>
+        </div>
+        <div class="wf-size">auto</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══ СТОРІНКА 5: ПРО НАС ═══ -->
+  <div class="wf-page-block">
+    <div class="wf-page-title"><span class="wf-page-num">СТОРІНКА</span> 05 — Про нас + Контакти</div>
+    <div class="wf-sections">
+
+      <div class="wf-block" id="wf5_1">
+        <div class="wf-check">✓ Підтверджено</div>
+        <div class="wf-num">01</div>
+        <div class="wf-content">
+          <div class="wf-section-name">Хто ми — цифри і факти</div>
+          <div class="wf-section-desc">Коротка історія компанії. 4 великі цифри: рік заснування, об'єктів виконано, років гарантії, міст присутності.</div>
+          <div class="wf-elements">
+            <span class="wf-el">З 2000 року ⚠️ уточнити</span>
+            <span class="wf-el">___ виконаних об'єктів ⚠️ уточнити</span>
+            <span class="wf-el">5 років гарантії</span>
+            <span class="wf-el">Рівне і регіон</span>
+            <span class="wf-el">Короткий текст про компанію</span>
+          </div>
+          <button class="wf-confirm-btn" onclick="confirmSection('wf5_1');event.stopPropagation();">Підтвердити секцію</button>
+        </div>
+        <div class="wf-size">auto</div>
+      </div>
+
+      <div class="wf-block" id="wf5_2">
+        <div class="wf-check">✓ Підтверджено</div>
+        <div class="wf-num">02</div>
+        <div class="wf-content">
+          <div class="wf-section-name">Як ми працюємо — процес</div>
+          <div class="wf-section-desc">4 кроки від заявки до готового об'єкта. Детальніша версія ніж на головній.</div>
+          <div class="wf-elements">
+            <span class="wf-el">Крок 1: Заявка або дзвінок</span>
+            <span class="wf-el">Крок 2: Безкоштовний замір на об'єкті</span>
+            <span class="wf-el">Крок 3: Договір, виробництво, контроль якості</span>
+            <span class="wf-el">Крок 4: Монтаж, прибирання, здача</span>
+          </div>
+          <button class="wf-confirm-btn" onclick="confirmSection('wf5_2');event.stopPropagation();">Підтвердити секцію</button>
+        </div>
+        <div class="wf-size">auto</div>
+      </div>
+
+      <div class="wf-block" id="wf5_3">
+        <div class="wf-check">✓ Підтверджено</div>
+        <div class="wf-num">03</div>
+        <div class="wf-content">
+          <div class="wf-section-name">Сертифікати та партнери</div>
+          <div class="wf-section-desc">Логотипи виробників з якими працюємо. Сертифікати якості якщо є. Підвищує довіру.</div>
+          <div class="wf-elements">
+            <span class="wf-el">Логотипи виробників ⚠️ отримати від клієнта</span>
+            <span class="wf-el">Сертифікати ⚠️ уточнити наявність</span>
+          </div>
+          <button class="wf-confirm-btn" onclick="confirmSection('wf5_3');event.stopPropagation();">Підтвердити секцію</button>
+        </div>
+        <div class="wf-size">auto</div>
+      </div>
+
+      <div class="wf-block" id="wf5_4">
+        <div class="wf-check">✓ Підтверджено</div>
+        <div class="wf-num">04</div>
+        <div class="wf-content">
+          <div class="wf-section-name">Контакти + форма + карта</div>
+          <div class="wf-section-desc">Форма заявки, всі контактні дані, Google Maps з маркером офісу/шоуруму.</div>
+          <div class="wf-elements">
+            <span class="wf-el">Форма: ім'я + телефон + коментар</span>
+            <span class="wf-el">Телефон: 067-57-67-07-8</span>
+            <span class="wf-el">Instagram: apex.rv.ua</span>
+            <span class="wf-el">Telegram-кнопка</span>
+            <span class="wf-el">Адреса: вул. Небесної Сотні, 20, Рівне</span>
+            <span class="wf-el">Карта Google Maps</span>
+          </div>
+          <button class="wf-confirm-btn" onclick="confirmSection('wf5_4');event.stopPropagation();">Підтвердити секцію</button>
+        </div>
+        <div class="wf-size">auto</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="wf-footer">
+    <div class="wf-footer-note">
+      Натисніть «Підтвердити» на кожній секції яка вас влаштовує.<br>
+      <strong>Якщо щось змінити — напишіть коментар у відповідь. ⚠️ — потребує уточнення від вас.</strong>
+    </div>
+    <div class="wf-footer-count">
+      Підтверджено: <span id="wf-count">0</span> / 24
+    </div>
+  </div>
+</div>
+
+<script>
+var confirmed = {};
+function confirmSection(id) {
+  var el = document.getElementById(id);
+  if (el.classList.contains('wf-confirmed')) {
+    el.classList.remove('wf-confirmed');
+    delete confirmed[id];
+  } else {
+    el.classList.add('wf-confirmed');
+    confirmed[id] = true;
+  }
+  document.getElementById('wf-count').textContent = Object.keys(confirmed).length;
+}
+</script>
+
 </body>
 </html>
